@@ -1,4 +1,4 @@
-Necesidad del negocio: The Internet Guinea Pig Website
+Característica: Sitio web de Internet Guinea Pig
 
   Esquema del escenario: Como un usuario, yo puedo autenticarme correctamente en un area segura
 

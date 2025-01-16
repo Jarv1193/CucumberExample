@@ -1,3 +1,4 @@
+import reporter from 'cucumber-html-reporter';
 export const config = {
     //
     // ====================
@@ -109,7 +110,7 @@ export const config = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: 'cucumber',
-    
+
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
@@ -123,7 +124,12 @@ export const config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: ['dot','cucumberjs-json'],
+    reporters: ['dot', ['cucumberjs-json', {
+        jsonFolder: './reports/cucumber-json', // Carpeta donde guardar los archivos JSON
+        language: 'es' // Configurar el reporte en español
+    }]
+    ],
+
 
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
@@ -276,7 +282,7 @@ export const config = {
      */
     // afterFeature: function (uri, feature) {
     // },
-    
+
     /**
      * Runs after a WebdriverIO command gets executed
      * @param {string} commandName hook command name
@@ -311,8 +317,20 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function(exitCode, config, capabilities, results) {
-    // },
+    onComplete: function () {
+        // Esta función se ejecutará cuando las pruebas hayan terminado
+        const options = {
+            theme: 'bootstrap',  // Puedes elegir otros temas si lo prefieres
+            jsonFile: './reports/cucumber-json/',  // Ruta al archivo JSON generado
+            output: './reports/cucumber-html/report.html',  // Ruta donde se guardará el reporte HTML
+            reportSuiteAsScenarios: true,  // Muestra los reportes como escenarios
+            launchReport: true  // Lanza el reporte en el navegador automáticamente
+        };
+
+        // Generar el reporte HTML
+        reporter.generate(options);
+    },
+
     /**
     * Gets executed when a refresh happens.
     * @param {string} oldSessionId session ID of the old session
